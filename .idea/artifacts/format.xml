@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="format">
+    <output-path>$PROJECT_DIR$/out/artifacts/format</output-path>
+    <root id="archive" name="format.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="format" />
+    </root>
+  </artifact>
+</component>

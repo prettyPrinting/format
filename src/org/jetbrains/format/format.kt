@@ -3,7 +3,6 @@ package org.jetbrains.format
 import java.util.ArrayList
 import java.util.Arrays
 import org.jetbrains.format.util.toLines
-import org.jetbrains.format.box.Box
 import org.jetbrains.format.util.startWhitespaceLength
 
 /**
@@ -52,7 +51,6 @@ class Format private (
     }
 
     override public fun toString()     : String = toText(0, "")
-    public fun toBox()        : Box = Box(totalWidth, height)
     public fun getTextErased(): Format = Format(height, firstLineWidth, middleWidth, lastLineWidth, {(n, t) -> ""})
 
     public fun sizeEqual(s: Format): Boolean =

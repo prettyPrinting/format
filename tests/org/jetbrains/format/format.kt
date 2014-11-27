@@ -1,10 +1,9 @@
 package org.jetbrains.format
 
 import org.junit.Test
-import kotlin.test.*
-import org.jetbrains.format.box.Box
 import org.jetbrains.format.toFormat
 import org.jetbrains.format.Format
+import kotlin.test.assertEquals
 
 /**
  * User: anlun
@@ -43,26 +42,6 @@ public class FormatTest {
         assertEquals(str, fmtToStr, "Incorrect multiline string to format transformation (by textToFormat).")
     }
 
-
-    Test fun toBoxTest_2Line() {
-        val str    = "Hello\ntest!"
-        val box = Box(5, 2)
-
-        val fmt    = str.toFormat()
-        val fmtBox = fmt.toBox()
-
-        assertEquals(box, fmtBox, "Incorrect toBox transformation (2 line string).")
-    }
-
-    Test fun toBoxTest_Empty() {
-        val str = ""
-        val box = Box(0, 0)
-
-        val fmt    = str.toFormat()
-        val fmtBox = fmt.toBox()
-
-        assertEquals(box, fmtBox, "Incorrect toBox transformation (empty string).")
-    }
 
     Test fun getIndented_PositiveIndent() {
         val str = "Hello\ntest!";

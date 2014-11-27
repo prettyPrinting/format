@@ -25,12 +25,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="util.kt" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/tests/org/jetbrains/format/util.kt">
+      <file leaf-file-name="box.kt" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/tests/org/jetbrains/format/box.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.3345691" vertical-offset="0" max-vertical-offset="1566">
-              <caret line="84" column="5" selection-start-line="84" selection-start-column="5" selection-end-line="84" selection-end-column="5" />
-              <folding />
+            <state vertical-scroll-proportion="0.1978022" vertical-offset="0" max-vertical-offset="1092">
+              <caret line="12" column="32" selection-start-line="12" selection-start-column="32" selection-end-line="12" selection-end-column="32" />
+              <folding>
+                <element signature="e#34#161#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -45,12 +47,13 @@
         <option value="$PROJECT_DIR$/tests/org/jetbrains/format/formatSet.kt" />
         <option value="$PROJECT_DIR$/src/org/jetbrains/format/util.kt" />
         <option value="$PROJECT_DIR$/tests/org/jetbrains/format/util.kt" />
+        <option value="$PROJECT_DIR$/tests/org/jetbrains/format/box.kt" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="18" />
-    <option name="width" value="960" />
+    <option name="width" value="1920" />
     <option name="height" value="1163" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -124,6 +127,10 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="format" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -353,8 +360,8 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="18" width="960" height="1163" extended-state="0" />
-    <editor active="true" />
+    <frame x="0" y="18" width="1920" height="1163" extended-state="0" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -374,7 +381,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.57740587" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.37734863" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293687" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -528,9 +535,33 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/org/jetbrains/format/util.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.3345691" vertical-offset="0" max-vertical-offset="1566">
+        <state vertical-scroll-proportion="1.3186814" vertical-offset="0" max-vertical-offset="1566">
           <caret line="84" column="5" selection-start-line="84" selection-start-column="5" selection-end-line="84" selection-end-column="5" />
-          <folding />
+          <folding>
+            <marker date="1417075999037" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1417075999037" expanded="true" signature="-1:-1" placeholder="/**...*/" />
+            <marker date="1417075999037" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1417075999037" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1417075999037" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1417075999037" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1417075999037" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1417075999037" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1417075999037" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1417075999037" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1417075999037" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1417075999037" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1417075999037" expanded="true" signature="-1:-1" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/org/jetbrains/format/box.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.1978022" vertical-offset="0" max-vertical-offset="1092">
+          <caret line="12" column="32" selection-start-line="12" selection-start-column="32" selection-end-line="12" selection-end-column="32" />
+          <folding>
+            <element signature="e#34#161#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

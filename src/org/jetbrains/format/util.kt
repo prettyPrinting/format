@@ -2,26 +2,14 @@ package org.jetbrains.format.util
 
 import java.util.ArrayList
 
-class LengthBuilder (
-    var length : Int = 0
-): Appendable {
-    override fun append(csq: CharSequence): Appendable {
-        length += csq.length
-        return this
-    }
-    override fun append(csq: CharSequence, start: Int, end: Int): Appendable {
-        if (start < 0 || end < 0 || end < start) throw IndexOutOfBoundsException()
-        length = end - start
-        return this
-    }
-    override fun append(_: Char): Appendable {
-        length++
-        return this
-    }
+fun String.countWhileEqualsTo(ch: Char): Int {
+    var count = 0
+    for (c in this) if (c == ch) count++ else break
+    return count
 }
 
-fun String.getIndentation  (): Int = takeWhileTo(LengthBuilder(), { c -> c == ' '  }).length
-fun String.countLeadingTabs(): Int = takeWhileTo(LengthBuilder(), { c -> c == '\t' }).length
+fun String.getIndentation  (): Int = countWhileEqualsTo(' ')
+fun String.countLeadingTabs(): Int = countWhileEqualsTo('\t')
 
 /** Calculates minimum indentation for lines. */
 fun startWhitespaceLength(lines: List<String>): Int {

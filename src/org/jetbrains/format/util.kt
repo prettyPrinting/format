@@ -26,7 +26,7 @@ fun startWhitespaceLength(lines: List<String>): Int {
 
 
 fun String.toLines(): List<String> {
-    if (length <= 0) return ArrayList<String>()
+    if (length <= 0) return ArrayList()
 
     val replaced = ("#" + this + "#").replace("\n", "#\n#")
     val splitted = replaced.split("\n")

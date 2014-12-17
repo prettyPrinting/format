@@ -41,7 +41,7 @@ open public class KDTree<T>(
         for (i in 0..k-1) {
             if (newEnd[i] - newStart[i] > 1) { isNewLeaf = false }
         }
-        val newSpace = if (isNewLeaf) KDLeaf<T>(k, newStart, newEnd, value)
+        val newSpace = if (isNewLeaf) KDLeaf(k, newStart, newEnd, value)
                        else           KDTree<T>(k, newStart, newEnd)
         subSpaceArray[pos] = newSpace
         return newSpace

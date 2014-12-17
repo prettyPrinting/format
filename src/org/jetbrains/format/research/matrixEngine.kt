@@ -32,9 +32,9 @@ data class Text(
         hashCode = text.hashCode()
     }
 
-    override public fun equals(obj: Any?): Boolean {
-        if (!(obj is Text)) { return false }
-        return text.equals(obj.text)
+    override public fun equals(other: Any?): Boolean {
+        if (other !is Text) { return false }
+        return text.equals(other.text)
     }
 }
 
@@ -47,11 +47,11 @@ data class Indent(
         hashCode = i * hashCodePrime + doc.hashCode()
     }
 
-    override public fun equals(obj: Any?): Boolean {
-        if (!(obj is Indent)) { return false }
-        if (i != obj.i) { return false }
+    override public fun equals(other: Any?): Boolean {
+        if (other !is Indent) { return false }
+        if (i != other.i) { return false }
 
-        return doc.equals(obj.doc)
+        return doc.equals(other.doc)
     }
 }
 
@@ -65,12 +65,12 @@ abstract data class DoubleDoc(
         hashCode = ((left.hashCode() * hashCodePrime) + right.hashCode) * hashCodePrime + n
     }
 
-    override public fun equals(obj: Any?): Boolean {
-        if (!(obj is DoubleDoc)) { return false }
+    override public fun equals(other: Any?): Boolean {
+        if (other !is DoubleDoc) { return false }
 
-        if (n != obj.n) { return false }
-        if (!left .equals(obj.left )) { return false }
-        if (!right.equals(obj.right)) { return false }
+        if (n != other.n) { return false }
+        if (!left .equals(other.left )) { return false }
+        if (!right.equals(other.right)) { return false }
 
         return true
     }

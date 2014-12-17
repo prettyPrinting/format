@@ -262,7 +262,7 @@ class FormatLine(
     override protected fun sameEmptySet(): FormatSet = FormatLine(width)
 }
 
-abstract class FormatMap<in Key>(
+abstract class FormatMap<Key>(
   width: Int
 , map: Map<Key, Format> = HashMap<Key, Format>()
 ): FormatSet(width) {

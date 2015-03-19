@@ -4,11 +4,13 @@ import java.util.ArrayList
 import java.util.Arrays
 import org.jetbrains.format.util.toLines
 import org.jetbrains.format.util.startWhitespaceLength
-
 /**
  * User: anlun
  */
 
+/**
+ * @ref{}
+ */
 class Format private (
   val         height: Int
 , val firstLineWidth: Int
@@ -16,29 +18,30 @@ class Format private (
 , val  lastLineWidth: Int
 , val         toText: (Int, String) -> String
 ) {
-    class object {
-        public val empty: Format = Format(0, 0, 0, 0, {(_, t) -> t})
-        public fun line(s: String): Format = Format(1, s.length, s.length, s.length, {(_, t) -> s + t})
+    companion object {
+        public val empty: Format = Format(0, 0, 0, 0, { _, t -> t})
+        public fun line(s: String): Format {
+            val len = s.length()
+            return Format(1, len, len, len, {_, t -> s + t})
+        }
 
         public fun text(s: String?): Format = (s ?: "").toLines().fold(empty) {
-            (curFmt, line) -> curFmt - line(line)
+            curFmt, line -> curFmt - line(line)
         }
 
         public fun text(s: String?, lengthToDrop: Int): Format {
             val lines = (s ?: "").toLines()
-            if (lines.empty) {
-                return empty
-            }
+            if (lines.isEmpty()) { return empty }
 
             val head = lines[0]
-            val tail = lines.tail
+            val tail = lines.drop(1)
             val lengthToDrop = Math.min(lengthToDrop, startWhitespaceLength(tail))
             val newTail = tail.map { line -> line.drop(lengthToDrop) }
-            val newLines = ArrayList<String>(lines.size)
+            val newLines = ArrayList<String>(lines.size())
             newLines.add(head)
             newLines.addAll(newTail)
 
-            return newLines.fold(empty, {(curFmt, line) -> curFmt - line(line) })
+            return newLines.fold(empty, { curFmt, line -> curFmt - line(line) })
         }
     }
 
@@ -51,7 +54,7 @@ class Format private (
     }
 
     override public fun toString()     : String = toText(0, "")
-    public fun getTextErased(): Format = Format(height, firstLineWidth, middleWidth, lastLineWidth, {(n, t) -> ""})
+    public fun getTextErased(): Format = Format(height, firstLineWidth, middleWidth, lastLineWidth, { n, t -> ""})
 
     public fun sizeEqual(s: Format): Boolean =
            height         == s.height
@@ -64,7 +67,7 @@ class Format private (
 
     public fun getIndented(iSize: Int): Format =
         Format(height, iSize + firstLineWidth, iSize + middleWidth, iSize + lastLineWidth
-             , {(n, t) -> sp(iSize) + toText(iSize + n, t)}
+             , { n, t -> sp(iSize) + toText(iSize + n, t) }
         )
 
     public fun addAbove(f: Format): Format {
@@ -77,7 +80,7 @@ class Format private (
                              ).max() ?: f.middleWidth
 
         return Format(newHeight, firstLineWidth, newMiddleWidth, f.lastLineWidth
-                    , {(n, t) -> toText(n, "\n" + sp(n) + f.toText(n, t))}
+                    , { n, t -> toText(n, "\n" + sp(n) + f.toText(n, t)) }
         )
     }
 
@@ -97,7 +100,7 @@ class Format private (
 
         val newLastLineWidth  = lastLineWidth + f.lastLineWidth
         return Format(newHeight, newFirstLineWidth, newMiddleWidth, newLastLineWidth
-                    , {(n, t) -> toText(n, f.toText(n + lastLineWidth, t))}
+                    , { n, t -> toText(n, f.toText(n + lastLineWidth, t)) }
         )
     }
 
@@ -117,12 +120,12 @@ class Format private (
         return Format(newHeight, newFirstLineWidth
                     , newMiddleWidth
                     , newLastLineWidth
-                    , {(n, t) -> toText(n, f.toText(n + shiftConstant, t))}
+                    , { n, t -> toText(n, f.toText(n + shiftConstant, t)) }
         )
     }
     public fun addFillStyle(f: Format): Format = addFillStyle(f, 0)
     public fun addEmptyLine(): Format = Format(height + 1, firstLineWidth, middleWidth, 0
-                                            , { (n, t) -> toText(n, "\n" + t) }
+                                            , { n, t -> toText(n, "\n" + t) }
                                         )
 
     public fun minus(f: Format): Format = addAbove(f)

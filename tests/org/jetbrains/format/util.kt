@@ -15,7 +15,7 @@ public class UtilTest {
     Test fun toLines_Empty() {
         val str = ""
         val lines = str.toLines()
-        assertEquals(0, lines.size, "Incorrect lines for empty string.")
+        assertEquals(0, lines.size(), "Incorrect lines for empty string.")
     }
 
     Test fun toLines_2Lines() {

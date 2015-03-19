@@ -20,7 +20,7 @@ abstract class FormatSet (
         D1; D2; D3; D3AF; SteppedD3AF; List
     }
 
-    class object {
+    companion object {
         public var usingNewInsertToText: Boolean = true
         public var defaultFormatSetType: FormatSetType = FormatSetType.D3AF
         public var stepInMap: Int = 1
@@ -89,12 +89,12 @@ abstract class FormatSet (
             addFillStyle(initial(width, f), shiftConstant)
     public fun addAboveWithEmptyLine(f: Format): FormatSet = addAboveWithEmptyLine(initial(width, f))
 
-    open public fun addAbove (f: FormatSet): FormatSet = crossTransform(f) { (vl, vr) -> vl - vr }
-    open public fun addBeside(f: FormatSet): FormatSet = crossTransform(f) { (vl, vr) -> vl / vr }
-    public fun addFillStyle(f: FormatSet): FormatSet = crossTransform(f) { (vl, vr) -> vl + vr }
+    open public fun addAbove (f: FormatSet): FormatSet = crossTransform(f) { vl, vr -> vl - vr }
+    open public fun addBeside(f: FormatSet): FormatSet = crossTransform(f) { vl, vr -> vl / vr }
+    public fun addFillStyle(f: FormatSet): FormatSet = crossTransform(f) { vl, vr -> vl + vr }
     public fun addFillStyle(f: FormatSet, shiftConstant: Int): FormatSet =
-            crossTransform(f) { (vl, vr) -> vl.addFillStyle(vr, shiftConstant) }
-    public fun addAboveWithEmptyLine(f: FormatSet): FormatSet = crossTransform(f) { (vl, vr) -> vl % vr }
+            crossTransform(f) { vl, vr -> vl.addFillStyle(vr, shiftConstant) }
+    public fun addAboveWithEmptyLine(f: FormatSet): FormatSet = crossTransform(f) { vl, vr -> vl % vr }
 
     /* Shortcuts */
     public fun minus(f: FormatSet): FormatSet = addAbove(f)
@@ -171,7 +171,7 @@ class FormatLine(
 ): FormatSet(width) {
     private var count: Int
 
-    {
+    init {
         count = 0
         for (i in array.indices) {
             val f = array[i]; if (f == null) { continue }
@@ -184,7 +184,7 @@ class FormatLine(
         private var nextExists: Boolean = true
         private var currentPlace: Int = -1
 
-        {
+        init {
             updateCurrentPlace()
         }
 
@@ -224,12 +224,13 @@ class FormatLine(
     override public fun isEmpty   (): Boolean = count == 0
     override public fun isNotEmpty(): Boolean = count != 0
 
-    override public fun head(resultWidth: Int): Format? = array.take(resultWidth + 1).fold(null) { (best: Format?, f) ->
-        betterFormat(best, f)
-    }
+    override public fun head(resultWidth: Int): Format? =
+            array.take(resultWidth + 1).fold(null) { best: Format?, f ->
+                betterFormat(best, f)
+            }
 
     override public fun filter(predicate: (Format) -> Boolean): FormatLine {
-        val newArray = Array<Format?>(width) { i ->
+        val newArray = Array(width) { i ->
             val f = array[i]
             if (f == null || !predicate(f)) {
                 null
@@ -241,7 +242,7 @@ class FormatLine(
     }
 
     override public fun map(func: (Format) -> Format): FormatLine {
-        val newArray = Array<Format?>(width) { i ->
+        val newArray = Array(width) { i ->
             val f = array[i]
             val nF = if (f != null) {
                         func(f)
@@ -275,7 +276,7 @@ abstract class FormatMap<Key>(
         override public fun hasNext(): Boolean = it.hasNext()
     }
 
-    {
+    init {
         for (e in map) {
             if (defaultFilter(e.value)) { myMap.put(e.key, e.value) }
         }
@@ -391,7 +392,7 @@ open class FormatMap3D(
   width: Int
 ,   map: Map<Frame3D, Format> = HashMap<Frame3D, Format>()
 ): FormatMap<Frame3D>(width, map) {
-    class object {
+    companion object {
         public fun factorize_1(s: FormatSet, firstLineFact: Boolean): FormatSet {
             //if (s.size() < s.width * s.width) { return s }
             val res = if (firstLineFact) { FormatMap2D_FL(s.width) } else { FormatMap2D_LL(s.width) }

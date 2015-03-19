@@ -11,7 +11,7 @@ import org.jetbrains.format.FormatSet
 
 // List extensions
 fun <T, B, R> List<T>.crossWith(yl: List<B>, f: (T, B) -> R): List<R> {
-    val result = ArrayList<R>(size * yl.size)
+    val result = ArrayList<R>(size() * yl.size())
     forEach { x ->
         yl.forEach { y ->
             result.add(f(x, y))

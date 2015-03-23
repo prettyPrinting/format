@@ -148,6 +148,15 @@ public class FormatTest {
         assertEquals(3, resultFmt.middleWidth, "Incorrect middle width calculation.")
     }
 
+    Test fun addFill_FirstSingleSecondSingle() {
+        val str1 = "56"
+        val fmt1 = str1.toFormat()
+        val str2 = "E"
+        val fmt2 = str2.toFormat()
+        val resultFmt = fmt1 + fmt2
+        assertEquals(3, resultFmt.middleWidth, "Incorrect middle width calculation.")
+    }
+
     Test fun addFillStyle_0FillConstant() {
         val str1 = "Test "
         val str2 = "Goodbye\ntest!"

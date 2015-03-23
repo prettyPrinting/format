@@ -154,7 +154,7 @@ public class FormatTest {
         val str2 = "E"
         val fmt2 = str2.toFormat()
         val resultFmt = fmt1 - fmt2
-        assertEquals(3, resultFmt.middleWidth, "Incorrect middle width calculation.")
+        assertEquals(2, resultFmt.middleWidth, "Incorrect middle width calculation.")
     }
 
     Test fun addFill_SecondSingle() {
@@ -236,6 +236,6 @@ public class FormatTest {
 
     Test fun middleWidth() {
         val fmt = "ab\nc"    .toFormat()
-        assertEquals(1, fmt.middleWidth)
+        assertEquals(2, fmt.middleWidth)
     }
 }

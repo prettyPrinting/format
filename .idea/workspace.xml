@@ -28,8 +28,8 @@
       <file leaf-file-name="format.kt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/org/jetbrains/format/format.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.19354838" vertical-offset="1530" max-vertical-offset="3276">
-              <caret line="92" column="9" selection-start-line="92" selection-start-column="9" selection-end-line="92" selection-end-column="9" />
+            <state vertical-scroll-proportion="0.9677419" vertical-offset="2376" max-vertical-offset="3114">
+              <caret line="167" column="49" selection-start-line="167" selection-start-column="49" selection-end-line="167" selection-end-column="49" />
               <folding>
                 <element signature="e#30#176#0" expanded="true" />
               </folding>
@@ -669,8 +669,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/jetbrains/format/format.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.19354838" vertical-offset="1530" max-vertical-offset="3276">
-          <caret line="92" column="9" selection-start-line="92" selection-start-column="9" selection-end-line="92" selection-end-column="9" />
+        <state vertical-scroll-proportion="0.9677419" vertical-offset="2376" max-vertical-offset="3114">
+          <caret line="167" column="49" selection-start-line="167" selection-start-column="49" selection-end-line="167" selection-end-column="49" />
           <folding>
             <element signature="e#30#176#0" expanded="true" />
           </folding>

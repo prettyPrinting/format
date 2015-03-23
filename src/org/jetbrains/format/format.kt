@@ -85,15 +85,12 @@ class Format private (
     }
 
     public fun addBeside(f: Format): Format {
-        val txtFunc = { n: Int, t: String  -> toText(n, f.toText(n + lastLineWidth, t)) }
+        if (  height == 0) { return  f }
+        if (f.height == 0) { return this }
+
         val newMiddleWidth : Int
         when {
-            height   == 0 -> return f
-            f.height == 0 -> return this
-            height   == 1 && f.height == 1 -> {
-                newMiddleWidth = firstLineWidth + f.firstLineWidth
-            }
-            height   == 1 && f.height == 2 -> {
+            height   == 1 && f.height <= 2 -> {
                 newMiddleWidth = firstLineWidth + f.firstLineWidth
             }
             height   == 1 && f.height >  2 -> {
@@ -112,28 +109,10 @@ class Format private (
             }
         }
 
-        //if (  height == 0) { return  f }
-        //if (f.height == 0) { return this }
-
         val newHeight         = height + f.height - 1
-        val newFirstLineWidth = if (height != 1)
-                                    firstLineWidth
-                                else
-                                    firstLineWidth + f.firstLineWidth
-
-        /*
-        val newMiddleWidth : Int
-        if (f.height != 1) {
-            newMiddleWidth =
-                    listOf(if (height > 1) middleWidth else 0
-                        , lastLineWidth + f.firstLineWidth, lastLineWidth + f.middleWidth
-                    ).max() ?: lastLineWidth + f.middleWidth
-        } else {
-            newMiddleWidth = middleWidth
-        }
-        */
-
+        val newFirstLineWidth = firstLineWidth + (if (height == 1) f.firstLineWidth else 0)
         val newLastLineWidth  = lastLineWidth + f.lastLineWidth
+        val txtFunc = { n: Int, t: String  -> toText(n, f.toText(n + lastLineWidth, t)) }
         return Format(newHeight, newFirstLineWidth, newMiddleWidth, newLastLineWidth, txtFunc)
     }
 
@@ -142,19 +121,31 @@ class Format private (
         if (f.height == 0) { return this }
 
         val newHeight         = height + f.height - 1
-        val newFirstLineWidth = if (height != 1)
-                                    firstLineWidth
-                                else
-                                    firstLineWidth + f.firstLineWidth
-        val newMiddleWidth    = listOf(if (height > 1) middleWidth else 0
-                                     , lastLineWidth + f.firstLineWidth, shiftConstant + f.middleWidth
-                                ).max() ?: shiftConstant + f.middleWidth
-        val newLastLineWidth = if (f.height != 1) f.lastLineWidth + shiftConstant else lastLineWidth + f.lastLineWidth
-        return Format(newHeight, newFirstLineWidth
-                    , newMiddleWidth
-                    , newLastLineWidth
-                    , { n, t -> toText(n, f.toText(n + shiftConstant, t)) }
-        )
+        val newMiddleWidth : Int
+        when {
+            height   == 1 && f.height <= 2 -> {
+                newMiddleWidth = firstLineWidth + f.firstLineWidth
+            }
+            height   == 1 && f.height >  2 -> {
+                newMiddleWidth = shiftConstant + f.middleWidth
+            }
+            height   == 2 && f.height == 1 -> {
+                newMiddleWidth = firstLineWidth
+            }
+            height   >  2 && f.height == 1 -> {
+                newMiddleWidth = middleWidth
+            }
+            else -> {
+                newMiddleWidth =
+                        listOf(middleWidth, lastLineWidth + f.firstLineWidth, shiftConstant + f.middleWidth).max()
+                                ?: shiftConstant + f.middleWidth
+            }
+        }
+
+        val newFirstLineWidth = firstLineWidth + (if (height == 1) f.firstLineWidth else 0)
+        val newLastLineWidth = f.lastLineWidth + (if (f.height == 1) lastLineWidth else shiftConstant)
+        val txtFunc = { n: Int, t: String -> toText(n, f.toText(n + shiftConstant, t)) }
+        return Format(newHeight, newFirstLineWidth, newMiddleWidth, newLastLineWidth, txtFunc)
     }
     public fun addFillStyle(f: Format): Format = addFillStyle(f, 0)
     public fun addEmptyLine(): Format = Format(height + 1, firstLineWidth, middleWidth, 0

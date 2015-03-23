@@ -14,7 +14,7 @@ import org.jetbrains.format.util.startWhitespaceLength
 class Format private (
   val         height: Int
 , val firstLineWidth: Int
-, val    middleWidth: Int
+, val    middleWidth: Int // For formats which have height <= 2 middleWidth should be equal to firstLineWidth
 , val  lastLineWidth: Int
 , val         toText: (Int, String) -> String
 ) {
@@ -74,14 +74,35 @@ class Format private (
         if (  height == 0) { return  f }
         if (f.height == 0) { return this }
 
-        val newHeight      = height + f.height
-        val newMiddleWidth = listOf(if (height > 1) Math.max(middleWidth, lastLineWidth) else 0
-                                  , f.firstLineWidth, f.middleWidth
-                             ).max() ?: f.middleWidth
+        val newMiddleWidth : Int
+        when {
+            height == 1 && f.height == 1 -> {
+                newMiddleWidth = firstLineWidth
+            }
+            height == 1 && f.height == 2 -> {
+                newMiddleWidth = f.firstLineWidth
+            }
+            height == 1 && f.height >= 2 -> {
+                newMiddleWidth = Math.max(f.firstLineWidth, f.middleWidth)
+            }
+            height == 2 && f.height == 1 -> {
+                newMiddleWidth = lastLineWidth
+            }
+            height >= 2 && f.height == 1 -> {
+                newMiddleWidth = Math.max(middleWidth, lastLineWidth)
+            }
+            else -> {
+                newMiddleWidth = listOf(middleWidth, lastLineWidth, f.firstLineWidth, f.middleWidth).max()
+                        ?: f.middleWidth
+            }
+        }
+        //val newMiddleWidth = listOf(if (height > 1) Math.max(middleWidth, lastLineWidth) else 0
+        //                          , f.firstLineWidth, f.middleWidth
+        //                     ).max() ?: f.middleWidth
 
-        return Format(newHeight, firstLineWidth, newMiddleWidth, f.lastLineWidth
-                    , { n, t -> toText(n, "\n" + sp(n) + f.toText(n, t)) }
-        )
+        val newHeight      = height + f.height
+        val txtFunc = { n: Int, t: String -> toText(n, "\n" + sp(n) + f.toText(n, t)) }
+        return Format(newHeight, firstLineWidth, newMiddleWidth, f.lastLineWidth, txtFunc)
     }
 
     public fun addBeside(f: Format): Format {
@@ -129,16 +150,21 @@ class Format private (
             height   == 1 && f.height >  2 -> {
                 newMiddleWidth = shiftConstant + f.middleWidth
             }
+            height   == 2 && f.height >  2 -> {
+                newMiddleWidth = Math.max(lastLineWidth + f.firstLineWidth, shiftConstant + f.middleWidth)
+            }
             height   == 2 && f.height == 1 -> {
                 newMiddleWidth = firstLineWidth
             }
             height   >  2 && f.height == 1 -> {
                 newMiddleWidth = middleWidth
             }
+            height   >  2 && f.height == 2 -> {
+                newMiddleWidth = Math.max(middleWidth, lastLineWidth + f.firstLineWidth)
+            }
             else -> {
-                newMiddleWidth =
-                        listOf(middleWidth, lastLineWidth + f.firstLineWidth, shiftConstant + f.middleWidth).max()
-                                ?: shiftConstant + f.middleWidth
+                val values = listOf(middleWidth, lastLineWidth + f.firstLineWidth, shiftConstant + f.middleWidth)
+                newMiddleWidth = values.max() ?: shiftConstant + f.middleWidth
             }
         }
 

@@ -121,6 +121,32 @@ public class FormatTest {
         assertEquals(expectedStr, fmtString, "Incorrect beside addition of formats (with empty one).")
     }
 
+    Test fun addBeside_SecondSingle() {
+        val str1 = "56\n  E\n  E"
+        val fmt1 = str1.toFormat()
+        val str2 = "E"
+        val fmt2 = str2.toFormat()
+        val resultFmt = fmt1 / fmt2
+        assertEquals(3, resultFmt.middleWidth, "Incorrect middle width calculation.")
+    }
+
+    Test fun addBeside_FirstSingleSecondSingle() {
+        val str1 = "56"
+        val fmt1 = str1.toFormat()
+        val str2 = "E"
+        val fmt2 = str2.toFormat()
+        val resultFmt = fmt1 / fmt2
+        assertEquals(3, resultFmt.middleWidth, "Incorrect middle width calculation.")
+    }
+
+    Test fun addFill_SecondSingle() {
+        val str1 = "56\n  E\n  E"
+        val fmt1 = str1.toFormat()
+        val str2 = "E"
+        val fmt2 = str2.toFormat()
+        val resultFmt = fmt1 + fmt2
+        assertEquals(3, resultFmt.middleWidth, "Incorrect middle width calculation.")
+    }
 
     Test fun addFillStyle_0FillConstant() {
         val str1 = "Test "

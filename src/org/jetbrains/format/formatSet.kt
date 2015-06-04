@@ -17,7 +17,7 @@ abstract class FormatSet (
     val width: Int
 ): Iterable<Format> {
     public enum class FormatSetType {
-        D1; D2; D3; D3AF; SteppedD3AF; List
+        D1, D2, D3, D3AF, SteppedD3AF, List
     }
 
     companion object {
@@ -116,9 +116,7 @@ abstract class FormatSet (
     abstract public fun head(resultWidth: Int = width): Format?
 
     public fun headSingleton(): FormatSet {
-        val h = head()
-        if (h == null) { return empty(width)
-        }
+        val h = head() ?: return empty(width)
         return FormatSet.initial(width, h)
     }
 
@@ -174,7 +172,7 @@ class FormatLine(
     init {
         count = 0
         for (i in array.indices) {
-            val f = array[i]; if (f == null) { continue }
+            val f = array[i] ?: continue
             if (f.totalWidth > width) array[i] = null
             else                      count++
         }
@@ -202,10 +200,7 @@ class FormatLine(
             if (currentPlace > array.lastIndex) {
                 throw NoSuchElementException()
             }
-            val f = array[currentPlace]
-            if (f == null) {
-                throw NoSuchElementException()
-            }
+            val f = array[currentPlace] ?: throw NoSuchElementException()
             updateCurrentPlace()
             return f
         }
@@ -353,7 +348,7 @@ data class Frame2D_LL(
 class FormatMap2D_LL(
   width: Int
 ,   map: Map<Frame2D_LL, Format> = HashMap<Frame2D_LL, Format>()
-): FormatMap<Frame2D_LL>(width, map), AdditionFactorization<Frame2D_LL> {
+): AdditionFactorizationFormatMap<Frame2D_LL>(width, map) {
     override public fun keyFromFormat(f: Format): Frame2D_LL = Frame2D_LL(f.totalWidth, f.lastLineWidth)
     override public fun createFormatMap(width: Int, map: Map<Frame2D_LL, Format>): FormatMap2D_LL = FormatMap2D_LL(width, map)
 
@@ -405,72 +400,20 @@ open class FormatMap3D(
     override public fun createFormatMap(width: Int, map: Map<Frame3D, Format>): FormatMap3D = FormatMap3D(width, map)
 
     override protected fun sameEmptySet(): FormatSet = FormatMap3D(width)
-    /*
-    override public fun addAbove(f: FormatSet): FormatSet {
-        val left  = factorize_1(this, true)
-        val right = factorize_1(f   , false)
-
-        val result = FormatMap3D(width)
-        left forEach { l ->
-            right forEach { r ->
-                result.add(l - r)
-            }
-        }
-        return result
-    }
-
-    override public fun addBeside(f: FormatSet): FormatSet {
-        val right = factorize_1(f, false)
-
-        val result = FormatMap3D(width)
-        this forEach { l ->
-            right forEach { r ->
-                result.add(l / r)
-            }
-        }
-        return result
-    }
-    */
 }
 
-var mapSizeMax: Int = 0
 
-trait AdditionFactorization<T: Frame<T>>: FormatMap<T> {
-    /*
-    override protected fun uncondAdd(f: Format) {
-        val fKey = keyFromFormat(f)
-        val keysToDelete = ArrayList<T>()
-
-//        mapSizeMax = Math.max(mapSizeMax, myMap.size)
-//        println(mapSizeMax)
-
-        val oldValue = myMap.get(fKey)
-        val betterFormatValue = betterFormat(oldValue, f) ?: f
-        var isThereBetterValue = false
-
-        for (key in myMap.keySet()) {
-            val mapValue = myMap.get(key)
-            if (mapValue == null /*|| key.equals(fKey)*/) { continue }
-            if (betterFormatValue.height <= mapValue.height && fKey.isLessThan(key)) {
-                keysToDelete.add(key)
-            }
-
-            if (betterFormatValue.height > mapValue.height && key.isLessThan(fKey)) {
-                isThereBetterValue = true
-            }
-        }
-
-        keysToDelete forEach {k -> myMap.remove(k)}
-        if (!isThereBetterValue) { myMap.put(fKey, betterFormatValue) }
-    }
-    */
+abstract class AdditionFactorizationFormatMap<T: Frame<T>>(
+  width: Int
+, map: Map<T, Format>
+): FormatMap<T>(width, map) {
     override protected fun factorize() {
         val keysToObserve = HashSet(myMap.keySet())
         val keysToRemove = HashSet<T>()
         for (key in myMap.keySet()) {
             if (!keysToObserve.contains(key)) { continue }
             var isThereBetter = false
-            val curFormat = myMap.get(key); if (curFormat == null) { continue }
+            val curFormat = myMap.get(key) ?: continue
 
             val keysToRemoveFromObserveSet = LinkedList<T>()
             for (anotherKey in keysToObserve) {
@@ -489,10 +432,6 @@ trait AdditionFactorization<T: Frame<T>>: FormatMap<T> {
             if (isThereBetter) { keysToObserve.remove(key); keysToRemove.add(key) }
         }
         keysToRemove forEach { k -> myMap.remove(k) }
-
-//        mapSizeMax = Math.max(mapSizeMax, myMap.size)
-//        println(mapSizeMax)
-
         isFactorized = true
     }
 }
@@ -500,8 +439,8 @@ trait AdditionFactorization<T: Frame<T>>: FormatMap<T> {
 class FormatMap3D_AF(
   width: Int
 , map: Map<Frame3D, Format> = HashMap<Frame3D, Format>()
-): FormatMap3D(width, map)
- , AdditionFactorization<Frame3D> {
+): AdditionFactorizationFormatMap<Frame3D>(width, map) {
+    override public fun keyFromFormat(f: Format): Frame3D = Frame3D(f.firstLineWidth, f.middleWidth, f.lastLineWidth)
     override public fun createFormatMap(width: Int, map: Map<Frame3D, Format>): FormatMap3D_AF = FormatMap3D_AF(width, map)
     override protected fun sameEmptySet(): FormatSet = FormatMap3D_AF(width)
 }
@@ -522,8 +461,7 @@ class SteppedFormatMap(
   val  step: Int
 ,     width: Int
 ,       map: Map<SteppedFrame, Format> = HashMap<SteppedFrame, Format>()
-): FormatMap<SteppedFrame>(width, map)
- , AdditionFactorization<SteppedFrame> {
+): AdditionFactorizationFormatMap<SteppedFrame>(width, map) {
     override public fun keyFromFormat(f: Format): SteppedFrame =
             SteppedFrame(step, f.firstLineWidth / step, f.middleWidth / step, f.lastLineWidth / step)
     override public fun createFormatMap(width: Int, map: Map<SteppedFrame, Format>): SteppedFormatMap =

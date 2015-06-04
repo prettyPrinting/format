@@ -29,6 +29,6 @@ fun String.toLines(): List<String> {
     if (length() <= 0) return ArrayList()
 
     val replaced = ("#" + this + "#").replace("\n", "#\n#")
-    val splitted = replaced.split("\n")
+    val splitted = replaced.splitBy("\n")
     return splitted map { p -> p.substring(1, p.length() - 1) }
 }

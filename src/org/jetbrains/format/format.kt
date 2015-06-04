@@ -11,7 +11,7 @@ import org.jetbrains.format.util.startWhitespaceLength
 /**
  * @ref{}
  */
-class Format private (
+class Format private constructor(
   val         height: Int
 , val firstLineWidth: Int
 , val    middleWidth: Int // For formats which have height <= 2 middleWidth should be equal to firstLineWidth

@@ -1,0 +1,78 @@
+import groovy.xml.MarkupBuilder
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:+'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'kotlin'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'org.jetbrains.kotlin:kotlin-stdlib:+'
+	compile 'junit:junit:+'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src'
+        }
+    }
+    test {
+        java {
+            srcDir 'tests'
+        }
+    }
+}
+
+rootProject.idea.project.ipr {
+    beforeMerged { project ->
+        project.modulePaths.clear()
+    }
+}
+
+idea.module.iml {
+    withXml {
+        it.node.@type = "PLUGIN_MODULE"
+    }
+}
+
+task setup {
+    dependsOn ideaModule, rootProject.ideaProject
+    doLast {
+        copy {
+            from '.'
+            into '.idea/'
+            include '*.ipr'
+            rename { "modules.xml" }
+        }
+        project.delete "${project.name}.ipr"
+
+
+        // That configures Project SDK and Output Dir automatically, so you can start working with
+        // then project without additional configuration if your project SDK is '1.8' (default for JDK 1.8)
+        File misc = new File(".idea${File.separator}misc.xml")
+        FileWriter fw = new FileWriter(misc)
+        def writer = new StringWriter()
+        def xml = new MarkupBuilder(writer)
+        xml.project(version: '4') {
+            component(name: "ProjectRootManager", version: "2", languageLevel: "JDK_1_7", default: "false",
+                    'assert-keyword': "true", 'jdk-15': "true",
+                    'project-jdk-name': "1.8",
+                    'project-jdk-type': "JavaSDK") {
+                output(url: 'file://$PROJECT_DIR$/out') {}
+            }
+        }
+        fw.write(writer.toString())
+        fw.close()
+    }
+}

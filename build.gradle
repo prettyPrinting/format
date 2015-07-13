@@ -1,4 +1,5 @@
 import groovy.xml.MarkupBuilder
+
 buildscript {
     repositories {
         mavenCentral()
@@ -34,33 +35,17 @@ sourceSets {
     }
 }
 
-rootProject.idea.project.ipr {
-    beforeMerged { project ->
-        project.modulePaths.clear()
-    }
-}
-
-idea.module.iml {
-    withXml {
-        it.node.@type = "PLUGIN_MODULE"
-    }
-}
-
 task setup {
-    dependsOn ideaModule, rootProject.ideaProject
+    dependsOn ideaModule
     doLast {
-        copy {
-            from '.'
-            into '.idea/'
-            include '*.ipr'
-            rename { "modules.xml" }
+        // The following code configures Project SDK and Output Dir automatically, so you can start working with
+        // the project without additional configuration if your project's SDK is '1.8' (default for JDK 1.8)
+		
+		def foldr = new File("${projectDir}${File.separator}.idea")
+        if (!foldr.exists()) {
+            foldr.mkdirs()
         }
-        project.delete "${project.name}.ipr"
-
-
-        // That configures Project SDK and Output Dir automatically, so you can start working with
-        // then project without additional configuration if your project SDK is '1.8' (default for JDK 1.8)
-        File misc = new File(".idea${File.separator}misc.xml")
+        File misc = new File("${projectDir}${File.separator}.idea${File.separator}misc.xml")
         FileWriter fw = new FileWriter(misc)
         def writer = new StringWriter()
         def xml = new MarkupBuilder(writer)
@@ -70,6 +55,21 @@ task setup {
                     'project-jdk-name': "1.8",
                     'project-jdk-type': "JavaSDK") {
                 output(url: 'file://$PROJECT_DIR$/out') {}
+            }
+        }
+        fw.write(writer.toString())
+        fw.close()
+
+        def modulesFile = new File("${projectDir}${File.separator}.idea${File.separator}modules.xml")
+        fw = new FileWriter(modulesFile)
+        writer = new StringWriter()
+        xml = new MarkupBuilder(writer)
+        xml.project(version: '4') {
+            component(name: 'ProjectModuleManager') {
+                modules() {
+                    module(fileurl: 'file://$PROJECT_DIR$/format.iml',
+                            filepath: '$PROJECT_DIR$/format.iml') {}
+                }
             }
         }
         fw.write(writer.toString())

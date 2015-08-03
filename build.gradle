@@ -74,5 +74,33 @@ task setup {
         }
         fw.write(writer.toString())
         fw.close()
+
+		def confFoldr = new File(".idea${File.separator}runConfigurations")
+        if (!confFoldr.exists()) {
+            confFoldr.mkdirs()
+        }
+		
+        def configTests = new File(".idea${File.separator}runConfigurations${File.separator}All_in_format.xml")
+        fw = new FileWriter(configTests)
+        writer = new StringWriter()
+        xml = new MarkupBuilder(writer)
+        xml.component(name: 'ProjectRunConfigurationManager') {
+            configuration(default: 'false'
+                    , name: 'All in format'
+                    , type: 'JUnit'
+                    , factoryName: 'JUnit') {
+                module(name: 'format')
+                option(name: 'ALTERNATIVE_JRE_PATH_ENABLED', value: 'false')
+                option(name: 'TEST_OBJECT', value: 'package')
+                option(name: 'VM_PARAMETERS', value: '-ea')
+                option(name: 'WORKING_DIRECTORY', value: 'file://$MODULE_DIR$')
+                option(name: 'PASS_PARENT_ENVS', value: 'true')
+                option(name: 'TEST_SEARCH_SCOPE') {
+                    value(defaultName: 'singleModule')
+                }
+            }
+        }
+        fw.write(writer.toString())
+        fw.close()
     }
 }

@@ -42,3 +42,7 @@ idea.module {
 task setup {
     dependsOn ideaModule
 }
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.5'
+}

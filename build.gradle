@@ -35,7 +35,6 @@ sourceSets {
 
 idea.module {
     name = "format"
-    jdkName = "1.7"
     sourceDirs += file('src')
     testSourceDirs += file('tests')
 }

@@ -15,6 +15,6 @@ Library written on Kotlin.
 ### OR
 1. Run gradlew script (or gradlew.bat)
 2. In terminal: type
-- `gradlew setup` to configure idea-based files
-- `gradlew test` -- compile and run tests
-- `gralew jar` -- create .jar-file. You can find it in build/libs
+    - `gradlew setup` to configure idea-based files
+    - `gradlew test` -- compile and run tests
+    - `gralew jar` -- create .jar-file. You can find it in build/libs

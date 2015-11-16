@@ -1,11 +1,9 @@
-import groovy.xml.MarkupBuilder
-
 buildscript {
     repositories {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:0.12.613'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.0-beta-2422'
     }
 }
 
@@ -18,89 +16,33 @@ repositories {
 }
 
 dependencies {
-    compile 'org.jetbrains.kotlin:kotlin-stdlib:0.12.613'
+    compile 'org.jetbrains.kotlin:kotlin-stdlib:1.0.0-beta-2422'
     compile 'junit:junit:+'
 }
 
 sourceSets {
     main {
-        java {
+        kotlin {
             srcDir 'src'
         }
     }
     test {
-        java {
+        kotlin {
             srcDir 'tests'
         }
     }
 }
 
+idea.module {
+    name = "format"
+    sourceDirs += file('src')
+    testSourceDirs += file('tests')
+}
+
 task setup {
     dependsOn ideaModule
-    doLast {
-        // The following code configures Project SDK and Output Dir automatically, so you can start working with
-        // the project without additional configuration if your project's SDK is '1.8' (default for JDK 1.8)
-		
-		def foldr = new File("${projectDir}${File.separator}.idea")
-        if (!foldr.exists()) {
-            foldr.mkdirs()
-        }
-        File misc = new File("${projectDir}${File.separator}.idea${File.separator}misc.xml")
-        FileWriter fw = new FileWriter(misc)
-        def writer = new StringWriter()
-        def xml = new MarkupBuilder(writer)
-        xml.project(version: '4') {
-            component(name: "ProjectRootManager", version: "2", languageLevel: "JDK_1_7", default: "false",
-                    'assert-keyword': "true", 'jdk-15': "true",
-                    'project-jdk-name': "1.8",
-                    'project-jdk-type': "JavaSDK") {
-                output(url: 'file://$PROJECT_DIR$/out') {}
-            }
-        }
-        fw.write(writer.toString())
-        fw.close()
+}
 
-        def modulesFile = new File("${projectDir}${File.separator}.idea${File.separator}modules.xml")
-        fw = new FileWriter(modulesFile)
-        writer = new StringWriter()
-        xml = new MarkupBuilder(writer)
-        xml.project(version: '4') {
-            component(name: 'ProjectModuleManager') {
-                modules() {
-                    module(fileurl: 'file://$PROJECT_DIR$/format.iml',
-                            filepath: '$PROJECT_DIR$/format.iml') {}
-                }
-            }
-        }
-        fw.write(writer.toString())
-        fw.close()
-
-		def confFoldr = new File(".idea${File.separator}runConfigurations")
-        if (!confFoldr.exists()) {
-            confFoldr.mkdirs()
-        }
-		
-        def configTests = new File(".idea${File.separator}runConfigurations${File.separator}All_in_format.xml")
-        fw = new FileWriter(configTests)
-        writer = new StringWriter()
-        xml = new MarkupBuilder(writer)
-        xml.component(name: 'ProjectRunConfigurationManager') {
-            configuration(default: 'false'
-                    , name: 'All in format'
-                    , type: 'JUnit'
-                    , factoryName: 'JUnit') {
-                module(name: 'format')
-                option(name: 'ALTERNATIVE_JRE_PATH_ENABLED', value: 'false')
-                option(name: 'TEST_OBJECT', value: 'package')
-                option(name: 'VM_PARAMETERS', value: '-ea')
-                option(name: 'WORKING_DIRECTORY', value: 'file://$MODULE_DIR$')
-                option(name: 'PASS_PARENT_ENVS', value: 'true')
-                option(name: 'TEST_SEARCH_SCOPE') {
-                    value(defaultName: 'singleModule')
-                }
-            }
-        }
-        fw.write(writer.toString())
-        fw.close()
-    }
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.5'
 }

@@ -97,17 +97,17 @@ abstract class FormatSet (
     public fun addAboveWithEmptyLine(f: FormatSet): FormatSet = crossTransform(f) { vl, vr -> vl % vr }
 
     /* Shortcuts */
-    public fun minus(f: FormatSet): FormatSet = addAbove(f)
-    public fun minus(f: Format): FormatSet = addAbove(f)
+    public operator fun minus(f: FormatSet): FormatSet = addAbove(f)
+    public operator fun minus(f: Format): FormatSet = addAbove(f)
 
-    public fun mod(f: FormatSet): FormatSet = addAboveWithEmptyLine(f)
-    public fun mod(f: Format): FormatSet = addAboveWithEmptyLine(f)
+    public operator fun mod(f: FormatSet): FormatSet = addAboveWithEmptyLine(f)
+    public operator fun mod(f: Format): FormatSet = addAboveWithEmptyLine(f)
 
-    public fun div(f: FormatSet): FormatSet = addBeside(f)
-    public fun div(f: Format): FormatSet = addBeside(f)
+    public operator fun div(f: FormatSet): FormatSet = addBeside(f)
+    public operator fun div(f: Format): FormatSet = addBeside(f)
 
-    public fun plus(f: FormatSet): FormatSet = addFillStyle(f)
-    public fun plus(f: Format): FormatSet = addFillStyle(f)
+    public operator fun plus(f: FormatSet): FormatSet = addFillStyle(f)
+    public operator fun plus(f: Format): FormatSet = addFillStyle(f)
 
     abstract public fun isEmpty   (): Boolean
     abstract public fun isNotEmpty(): Boolean
@@ -151,21 +151,21 @@ class FormatList(
     override public fun isNotEmpty(): Boolean = myList.isNotEmpty()
 
     override public fun head(resultWidth: Int): Format? =
-            myList filter { f -> f.totalWidth <= resultWidth } minBy { f -> f.height }
+            myList.filter { f -> f.totalWidth <= resultWidth }.minBy { f -> f.height }
 
     override public fun filter(predicate: (Format) -> Boolean): FormatList =
             FormatList(width, myList.filter(predicate))
     override public fun map   (func     : (Format) -> Format): FormatList =
             FormatList(width, myList.map(func).filter(defaultFilter))
 
-    override public fun size(): Int = myList.size()
+    override public fun size(): Int = myList.size
 
     override protected fun sameEmptySet(): FormatSet = FormatList(width)
 }
 
 class FormatLine(
   width: Int
-, private val array: Array<Format?> = Array<Format?>(width + 1, {_ -> null})
+, private val array: Array<Format?> = Array<Format?>(width + 1, {x -> null})
 ): FormatSet(width) {
     private var count: Int
 
@@ -292,7 +292,7 @@ abstract class FormatMap<Key>(
     override public fun isNotEmpty(): Boolean = !myMap.isEmpty()
 
     override public fun head(resultWidth: Int): Format? =
-            myMap.values() filter { f -> f.totalWidth <= resultWidth } minBy { f -> f.height }
+            myMap.values.filter { f -> f.totalWidth <= resultWidth }.minBy { f -> f.height }
 
     override public fun filter(predicate: (Format) -> Boolean): FormatMap<Key> {
         val result = HashMap<Key, Format>()
@@ -315,16 +315,16 @@ abstract class FormatMap<Key>(
         return createFormatMap(width, result)
     }
 
-    override public fun size(): Int = myMap.size()
+    override public fun size(): Int = myMap.size
 }
 
-abstract class Frame<F>() {
-    abstract public fun isLessThan(fr: F): Boolean
+interface Frame<F> {
+    public fun isLessThan(fr: F): Boolean
 }
 
 data class Frame1D(
   val width: Int
-): Frame<Frame1D>() {
+): Frame<Frame1D> {
     override public fun isLessThan(fr: Frame1D): Boolean = width <= fr.width
 }
 
@@ -341,7 +341,7 @@ class FormatMap1D(
 data class Frame2D_LL(
   val width: Int
 , val lastLineWidth: Int
-): Frame<Frame2D_LL>() {
+): Frame<Frame2D_LL> {
     override public fun isLessThan(fr: Frame2D_LL): Boolean = width <= fr.width && lastLineWidth <= fr.lastLineWidth
 }
 
@@ -358,7 +358,7 @@ class FormatMap2D_LL(
 data class Frame2D_FL(
   val width: Int
 , val firstLineWidth: Int
-): Frame<Frame2D_FL>() {
+): Frame<Frame2D_FL> {
     override public fun isLessThan(fr: Frame2D_FL): Boolean = width <= fr.width && firstLineWidth <= fr.firstLineWidth
 }
 
@@ -376,7 +376,7 @@ data class Frame3D(
   val firstLineWidth: Int
 , val    middleWidth: Int
 , val  lastLineWidth: Int
-): Frame<Frame3D>() {
+): Frame<Frame3D> {
     override public fun isLessThan(fr: Frame3D): Boolean =
           firstLineWidth <= fr.firstLineWidth
         &&   middleWidth <= fr.   middleWidth
@@ -408,9 +408,9 @@ abstract class AdditionFactorizationFormatMap<T: Frame<T>>(
 , map: Map<T, Format>
 ): FormatMap<T>(width, map) {
     override protected fun factorize() {
-        val keysToObserve = HashSet(myMap.keySet())
+        val keysToObserve = HashSet(myMap.keys)
         val keysToRemove = HashSet<T>()
-        for (key in myMap.keySet()) {
+        for (key in myMap.keys) {
             if (!keysToObserve.contains(key)) { continue }
             var isThereBetter = false
             val curFormat = myMap.get(key) ?: continue
@@ -431,7 +431,7 @@ abstract class AdditionFactorizationFormatMap<T: Frame<T>>(
 
             if (isThereBetter) { keysToObserve.remove(key); keysToRemove.add(key) }
         }
-        keysToRemove forEach { k -> myMap.remove(k) }
+        keysToRemove.forEach { k -> myMap.remove(k) }
         isFactorized = true
     }
 }
@@ -450,7 +450,7 @@ data class SteppedFrame(
 , val firstLineWidthDiv: Int
 , val    middleWidthDiv: Int
 , val  lastLineWidthDiv: Int
-): Frame<SteppedFrame>() {
+): Frame<SteppedFrame> {
     override public fun isLessThan(fr: SteppedFrame): Boolean =
           firstLineWidthDiv <= fr.firstLineWidthDiv
         &&   middleWidthDiv <= fr.   middleWidthDiv

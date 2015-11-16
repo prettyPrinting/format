@@ -13,10 +13,10 @@ fun String.countLeadingTabs(): Int = countWhileEqualsTo('\t')
 
 /** Calculates minimum indentation for lines. */
 fun startWhitespaceLength(lines: List<String>): Int {
-    val nonEmptyLines = lines.filter { l -> l.trim().length() != 0 }
-    if (nonEmptyLines.size() <= 0) { return 0 }
+    val nonEmptyLines = lines.filter { l -> l.trim().length != 0 }
+    if (nonEmptyLines.size <= 0) { return 0 }
 
-    val firstLineLength = nonEmptyLines[0].length()
+    val firstLineLength = nonEmptyLines[0].length
     val result = nonEmptyLines.fold(firstLineLength) { r, line ->
         val leadingWhitespaceCount = line.getIndentation()
         Math.min(r, leadingWhitespaceCount)
@@ -26,9 +26,9 @@ fun startWhitespaceLength(lines: List<String>): Int {
 
 
 fun String.toLines(): List<String> {
-    if (length() <= 0) return ArrayList()
+    if (length <= 0) return ArrayList()
 
     val replaced = ("#" + this + "#").replace("\n", "#\n#")
-    val splitted = replaced.splitBy("\n")
-    return splitted map { p -> p.substring(1, p.length() - 1) }
+    val splitted = replaced.split("\n")
+    return splitted.map { p -> p.substring(1, p.length - 1) }
 }

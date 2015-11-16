@@ -16,7 +16,7 @@ import org.jetbrains.format.FormatSet
  */
 
 public class FormatListTest {
-    Test fun crossWithTest_SecondEmpty() {
+    @Test fun crossWithTest_SecondEmpty() {
         val l1 = listOf(1)
         val l2: List<Int> = listOf()
         val func = { x: Int, y: Int -> x + y }
@@ -26,7 +26,7 @@ public class FormatListTest {
         assertEquals(expectedList, crossWith, "Incorrect crossWith in case of empty second list.")
     }
 
-    Test fun crossWith_Test() {
+    @Test fun crossWith_Test() {
         val l1 = listOf(1, 2)
         val l2: List<Int> = listOf(2, 3, 4)
         val func = { x: Int, y: Int -> x + y }

@@ -26,7 +26,7 @@ class Format private constructor(
         }
 
         public fun text(s: String?): Format = (s ?: "").toLines().fold(empty) {
-            curFmt, line -> curFmt.minus(line(line))
+            curFmt, line -> curFmt - line(line)
         }
 
         public fun text(s: String?, lengthToDrop: Int): Format {
@@ -41,7 +41,7 @@ class Format private constructor(
             newLines.add(head)
             newLines.addAll(newTail)
 
-            return newLines.fold(empty, { curFmt, line -> curFmt.minus(line(line)) })
+            return newLines.fold(empty, { curFmt, line -> curFmt - line(line) })
         }
     }
 
@@ -184,7 +184,7 @@ class Format private constructor(
         if (  height == 0) { return f }
         if (f.height == 0) { return this }
 
-        return this.minus(line("")).minus(f)
+        return this - line("") - f
     }
 
     public operator fun div (f: Format): Format = addBeside(f)

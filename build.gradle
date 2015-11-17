@@ -1,0 +1,48 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.0-beta-2422'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'kotlin'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.jetbrains.kotlin:kotlin-stdlib:1.0.0-beta-2422'
+    compile 'junit:junit:+'
+}
+
+sourceSets {
+    main {
+        kotlin {
+            srcDir 'src'
+        }
+    }
+    test {
+        kotlin {
+            srcDir 'tests'
+        }
+    }
+}
+
+idea.module {
+    name = "format"
+    sourceDirs += file('src')
+    testSourceDirs += file('tests')
+}
+
+task setup {
+    dependsOn ideaModule
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.5'
+}

@@ -19,12 +19,12 @@ public class FormatSetTest {
         return fl
     }
 
-    Test public fun formatLine_1() {
+    @Test public fun formatLine_1() {
         val fl = formatLine()
         assertEquals(2, fl.size())
     }
 
-    Test public fun formatLine_iterate() {
+    @Test public fun formatLine_iterate() {
         var count = 0
         for (f in formatLine()) {
             count++

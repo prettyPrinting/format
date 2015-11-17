@@ -19,10 +19,10 @@ class Format private constructor(
 , val         toText: (Int, String) -> String
 ) {
     companion object {
-        public val empty: Format = Format(0, 0, 0, 0, { _, t -> t})
+        public val empty: Format = Format(0, 0, 0, 0, { x, t -> t})
         public fun line(s: String): Format {
-            val len = s.length()
-            return Format(1, len, len, len, {_, t -> s + t})
+            val len = s.length
+            return Format(1, len, len, len, {x, t -> s + t})
         }
 
         public fun text(s: String?): Format = (s ?: "").toLines().fold(empty) {
@@ -35,9 +35,9 @@ class Format private constructor(
 
             val head = lines[0]
             val tail = lines.drop(1)
-            val lengthToDrop = Math.min(lengthToDrop, startWhitespaceLength(tail))
-            val newTail = tail.map { line -> line.drop(lengthToDrop) }
-            val newLines = ArrayList<String>(lines.size())
+            val newLengthToDrop = Math.min(lengthToDrop, startWhitespaceLength(tail))
+            val newTail = tail.map { line -> line.drop(newLengthToDrop) }
+            val newLines = ArrayList<String>(lines.size)
             newLines.add(head)
             newLines.addAll(newTail)
 
@@ -178,17 +178,17 @@ class Format private constructor(
                                             , { n, t -> toText(n, "\n" + t) }
                                         )
 
-    public fun minus(f: Format): Format = addAbove(f)
+    public operator fun minus(f: Format): Format = addAbove(f)
 
-    public fun mod(f: Format): Format {
+    public operator fun mod(f: Format): Format {
         if (  height == 0) { return f }
         if (f.height == 0) { return this }
 
         return this - line("") - f
     }
 
-    public fun div (f: Format): Format = addBeside(f)
-    public fun plus(f: Format): Format = addFillStyle(f)
+    public operator fun div (f: Format): Format = addBeside(f)
+    public operator fun plus(f: Format): Format = addFillStyle(f)
 }
 
 fun String?.toFormat(): Format = Format.text(this)

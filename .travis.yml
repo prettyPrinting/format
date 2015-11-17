@@ -1,6 +1,6 @@
 ---
 language: java
 sudo: required
-script: ./gradlew
+script: sudo ./gradlew
 jdk:
   - openjdk7

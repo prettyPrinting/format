@@ -7,9 +7,10 @@ buildscript {
     }
 }
 
-apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'kotlin'
+
+defaultTasks 'test'
 
 repositories {
     mavenCentral()
@@ -17,7 +18,7 @@ repositories {
 
 dependencies {
     compile 'org.jetbrains.kotlin:kotlin-stdlib:1.0.0-beta-2422'
-    compile 'junit:junit:+'
+    testCompile 'junit:junit:+'
 }
 
 sourceSets {

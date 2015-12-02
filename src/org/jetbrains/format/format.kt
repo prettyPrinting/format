@@ -4,12 +4,9 @@ import java.util.ArrayList
 import java.util.Arrays
 import org.jetbrains.format.util.toLines
 import org.jetbrains.format.util.startWhitespaceLength
-/**
- * User: anlun
- */
 
 /**
- * @ref{}
+ * User: anlun
  */
 class Format private constructor(
   val         height: Int

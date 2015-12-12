@@ -6,7 +6,6 @@ import kotlin.test.assertEquals
 import org.jetbrains.format.emptyFormatList
 import org.jetbrains.format.formatToList
 import org.jetbrains.format.Format
-import kotlin.test.failsWith
 import kotlin.test.assertTrue
 import org.jetbrains.format.FormatList
 import org.jetbrains.format.FormatSet

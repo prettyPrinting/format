@@ -44,6 +44,10 @@ task setup {
     dependsOn ideaModule
 }
 
+jar {
+    from sourceSets.main.allSource
+}
+
 task wrapper(type: Wrapper) {
     gradleVersion = '2.5'
 }

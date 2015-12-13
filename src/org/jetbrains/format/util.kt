@@ -1,6 +1,7 @@
 package org.jetbrains.format.util
 
 import java.util.ArrayList
+import kotlin.text.Regex
 
 fun String.countWhileEqualsTo(ch: Char): Int {
     var count = 0
@@ -28,7 +29,7 @@ fun startWhitespaceLength(lines: List<String>): Int {
 fun String.toLines(): List<String> {
     if (length <= 0) return ArrayList()
 
-    val replaced = ("#" + this + "#").replace("\n", "#\n#")
-    val splitted = replaced.split("\n")
+    val replaced = ("#" + this + "#").replace(Regex("\n"), "#\n#")
+    val splitted = replaced.split(Regex("\n"))
     return splitted.map { p -> p.substring(1, p.length - 1) }
 }

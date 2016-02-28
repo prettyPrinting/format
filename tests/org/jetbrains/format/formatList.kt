@@ -14,7 +14,7 @@ import org.jetbrains.format.FormatSet
  * User: anlun
  */
 
-public class FormatListTest {
+class FormatListTest {
     @Test fun crossWithTest_SecondEmpty() {
         val l1 = listOf(1)
         val l2: List<Int> = listOf()

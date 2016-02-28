@@ -9,7 +9,7 @@ import kotlin.test.assertEquals
  * User: anlun
  */
 
-public class FormatTest {
+class FormatTest {
     @Test fun toString_Empty() {
         val str = ""
         val fmt = str.toFormat()

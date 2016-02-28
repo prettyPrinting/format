@@ -11,7 +11,7 @@ import kotlin.test.assertTrue
  * User: anlun
  */
 
-public class UtilTest {
+class UtilTest {
     @Test fun toLines_Empty() {
         val str = ""
         val lines = str.toLines()

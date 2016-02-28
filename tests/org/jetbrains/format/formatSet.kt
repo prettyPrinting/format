@@ -8,7 +8,7 @@ import org.jetbrains.format.FormatLine
 /**
  * User: anlun
  */
-public class FormatSetTest {
+class FormatSetTest {
     private fun formatLine(): FormatLine {
         val width = 100
         val fl = FormatLine(width)
@@ -19,12 +19,12 @@ public class FormatSetTest {
         return fl
     }
 
-    @Test public fun formatLine_1() {
+    @Test fun formatLine_1() {
         val fl = formatLine()
         assertEquals(2, fl.size())
     }
 
-    @Test public fun formatLine_iterate() {
+    @Test fun formatLine_iterate() {
         var count = 0
         for (f in formatLine()) {
             count++

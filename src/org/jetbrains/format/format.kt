@@ -16,17 +16,17 @@ class Format private constructor(
 , val         toText: (Int, String) -> String
 ) {
     companion object {
-        public val empty: Format = Format(0, 0, 0, 0, { x, t -> t})
-        public fun line(s: String): Format {
+        val empty: Format = Format(0, 0, 0, 0, { x, t -> t})
+        fun line(s: String): Format {
             val len = s.length
             return Format(1, len, len, len, {x, t -> s + t})
         }
 
-        public fun text(s: String?): Format = (s ?: "").toLines().fold(empty) {
+        fun text(s: String?): Format = (s ?: "").toLines().fold(empty) {
             curFmt, line -> curFmt - line(line)
         }
 
-        public fun text(s: String?, lengthToDrop: Int): Format {
+        fun text(s: String?, lengthToDrop: Int): Format {
             val lines = (s ?: "").toLines()
             if (lines.isEmpty()) { return empty }
 
@@ -42,7 +42,7 @@ class Format private constructor(
         }
     }
 
-    public val totalWidth: Int = listOf(firstLineWidth, middleWidth, lastLineWidth).max() ?: middleWidth
+    val totalWidth: Int = listOf(firstLineWidth, middleWidth, lastLineWidth).max() ?: middleWidth
 
     private fun sp(n: Int): String {
         val s = CharArray(n)
@@ -50,24 +50,24 @@ class Format private constructor(
         return String(s)
     }
 
-    override public fun toString()     : String = toText(0, "")
-    public fun getTextErased(): Format = Format(height, firstLineWidth, middleWidth, lastLineWidth, { n, t -> ""})
+    override fun toString()     : String = toText(0, "")
+    fun getTextErased(): Format = Format(height, firstLineWidth, middleWidth, lastLineWidth, { n, t -> ""})
 
-    public fun sizeEqual(s: Format): Boolean =
+    fun sizeEqual(s: Format): Boolean =
            height         == s.height
         && firstLineWidth == s.firstLineWidth
         &&    middleWidth == s.middleWidth
         && lastLineWidth  == s.lastLineWidth
 
-    public fun lower(s: Format): Boolean =
+    fun lower(s: Format): Boolean =
             height < s.height || (height == s.height &&  totalWidth < s.totalWidth)
 
-    public fun getIndented(iSize: Int): Format =
+    fun getIndented(iSize: Int): Format =
         Format(height, iSize + firstLineWidth, iSize + middleWidth, iSize + lastLineWidth
              , { n, t -> sp(iSize) + toText(iSize + n, t) }
         )
 
-    public fun addAbove(f: Format): Format {
+    fun addAbove(f: Format): Format {
         if (  height == 0) { return  f }
         if (f.height == 0) { return this }
 
@@ -102,7 +102,7 @@ class Format private constructor(
         return Format(newHeight, firstLineWidth, newMiddleWidth, f.lastLineWidth, txtFunc)
     }
 
-    public fun addBeside(f: Format): Format {
+    fun addBeside(f: Format): Format {
         if (  height == 0) { return  f }
         if (f.height == 0) { return this }
 
@@ -134,7 +134,7 @@ class Format private constructor(
         return Format(newHeight, newFirstLineWidth, newMiddleWidth, newLastLineWidth, txtFunc)
     }
 
-    public fun addFillStyle(f: Format, shiftConstant: Int): Format {
+    fun addFillStyle(f: Format, shiftConstant: Int): Format {
         if (  height == 0) { return  f }
         if (f.height == 0) { return this }
 
@@ -170,22 +170,22 @@ class Format private constructor(
         val txtFunc = { n: Int, t: String -> toText(n, f.toText(n + shiftConstant, t)) }
         return Format(newHeight, newFirstLineWidth, newMiddleWidth, newLastLineWidth, txtFunc)
     }
-    public fun addFillStyle(f: Format): Format = addFillStyle(f, 0)
-    public fun addEmptyLine(): Format = Format(height + 1, firstLineWidth, middleWidth, 0
+    fun addFillStyle(f: Format): Format = addFillStyle(f, 0)
+    fun addEmptyLine(): Format = Format(height + 1, firstLineWidth, middleWidth, 0
                                             , { n, t -> toText(n, "\n" + t) }
                                         )
 
-    public operator fun minus(f: Format): Format = addAbove(f)
+    operator fun minus(f: Format): Format = addAbove(f)
 
-    public operator fun mod(f: Format): Format {
+    operator fun mod(f: Format): Format {
         if (  height == 0) { return f }
         if (f.height == 0) { return this }
 
         return this - line("") - f
     }
 
-    public operator fun div (f: Format): Format = addBeside(f)
-    public operator fun plus(f: Format): Format = addFillStyle(f)
+    operator fun div (f: Format): Format = addBeside(f)
+    operator fun plus(f: Format): Format = addFillStyle(f)
 }
 
 fun String?.toFormat(): Format = Format.text(this)

@@ -49,6 +49,8 @@ jar {
     from sourceSets.main.allSource
 }
 
+test.finalizedBy(jar)
+
 task wrapper(type: Wrapper) {
     gradleVersion = '2.5'
 }

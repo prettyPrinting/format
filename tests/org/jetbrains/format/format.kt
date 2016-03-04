@@ -1,9 +1,7 @@
 package org.jetbrains.format
 
 import org.junit.Test
-import org.jetbrains.format.toFormat
-import org.jetbrains.format.Format
-import kotlin.test.assertEquals
+import org.junit.Assert
 
 /**
  * User: anlun
@@ -15,7 +13,7 @@ class FormatTest {
         val fmt = str.toFormat()
         val fmtToStr = fmt.toString()
 
-        assertEquals(str, fmtToStr, "Incorrect one line string to format transformation (by textToFormat).")
+        Assert.assertEquals("Incorrect one line string to format transformation (by textToFormat).", str, fmtToStr)
     }
 
     @Test fun toString_1Line() {
@@ -23,7 +21,7 @@ class FormatTest {
         val fmt = Format.line(str)
         val fmtToStr = fmt.toString()
 
-        assertEquals(str, fmtToStr, "Incorrect one line string to format transformation (by lineToFormat).")
+        Assert.assertEquals("Incorrect one line string to format transformation (by lineToFormat).", str, fmtToStr)
     }
 
     @Test fun toString_1LineByTextFunction() {
@@ -31,7 +29,7 @@ class FormatTest {
         val fmt = str.toFormat()
         val fmtToStr = fmt.toString()
 
-        assertEquals(str, fmtToStr, "Incorrect one line string to format transformation (by textToFormat).")
+        Assert.assertEquals("Incorrect one line string to format transformation (by textToFormat).", str, fmtToStr)
     }
 
     @Test fun toStringTest_2LineByTextFunction() {
@@ -39,7 +37,7 @@ class FormatTest {
         val fmt = str.toFormat()
         val fmtToStr = fmt.toString()
 
-        assertEquals(str, fmtToStr, "Incorrect multiline string to format transformation (by textToFormat).")
+        Assert.assertEquals("Incorrect multiline string to format transformation (by textToFormat).", str, fmtToStr)
     }
 
 
@@ -52,7 +50,7 @@ class FormatTest {
         val indentedFmt = fmt.getIndented(indentSize)
         val indentedFmtText = indentedFmt.toString()
 
-        assertEquals(expectedStr, indentedFmtText, "Incorrect indentation of format (indent size: $indentSize).")
+        Assert.assertEquals("Incorrect indentation of format (indent size: $indentSize).", expectedStr, indentedFmtText)
     }
 
     @Test fun getIndented_ZeroIndent() {
@@ -64,7 +62,7 @@ class FormatTest {
         val indentedFmt = fmt.getIndented(indentSize)
         val indentedFmtText = indentedFmt.toString()
 
-        assertEquals(expectedStr, indentedFmtText, "Incorrect indentation of format (indent size: $indentSize).")
+        Assert.assertEquals("Incorrect indentation of format (indent size: $indentSize).", expectedStr, indentedFmtText)
     }
 
     @Test fun addAbove_Test() {
@@ -77,7 +75,7 @@ class FormatTest {
         val resultFmt = fmt1 - fmt2
         val fmtString = resultFmt.toString()
 
-        assertEquals(expectedStr, fmtString, "Incorrect above addition of formats.")
+        Assert.assertEquals("Incorrect above addition of formats.", expectedStr, fmtString)
     }
 
     @Test fun addAbove_SecondEmpty() {
@@ -90,7 +88,7 @@ class FormatTest {
         val resultFmt = fmt1 - fmt2
         val fmtString = resultFmt.toString()
 
-        assertEquals(expectedStr, fmtString, "Incorrect above addition of formats (with empty one).")
+        Assert.assertEquals("Incorrect above addition of formats (with empty one).", expectedStr, fmtString)
     }
 
     @Test fun addBeside_Test() {
@@ -105,7 +103,7 @@ class FormatTest {
         val resultFmt = fmt1 / fmt2
         val fmtString = resultFmt.toString()
 
-        assertEquals(expectedStr, fmtString, "Incorrect beside addition of formats.")
+        Assert.assertEquals("Incorrect beside addition of formats.", expectedStr, fmtString)
     }
 
     @Test fun addBeside_FirstEmpty() {
@@ -118,7 +116,7 @@ class FormatTest {
         val resultFmt = fmt1 / fmt2
         val fmtString = resultFmt.toString()
 
-        assertEquals(expectedStr, fmtString, "Incorrect beside addition of formats (with empty one).")
+        Assert.assertEquals("Incorrect beside addition of formats (with empty one).", expectedStr, fmtString)
     }
 
     @Test fun addBeside_SecondSingle() {
@@ -127,7 +125,7 @@ class FormatTest {
         val str2 = "E"
         val fmt2 = str2.toFormat()
         val resultFmt = fmt1 / fmt2
-        assertEquals(3, resultFmt.middleWidth, "Incorrect middle width calculation.")
+        Assert.assertEquals("Incorrect middle width calculation.", 3, resultFmt.middleWidth)
     }
 
     @Test fun addBeside_FirstSingleSecondSingle() {
@@ -136,7 +134,7 @@ class FormatTest {
         val str2 = "E"
         val fmt2 = str2.toFormat()
         val resultFmt = fmt1 / fmt2
-        assertEquals(3, resultFmt.middleWidth, "Incorrect middle width calculation.")
+        Assert.assertEquals("Incorrect middle width calculation.", 3, resultFmt.middleWidth)
     }
 
     @Test fun addAbove_SecondSingle() {
@@ -145,7 +143,7 @@ class FormatTest {
         val str2 = "E"
         val fmt2 = str2.toFormat()
         val resultFmt = fmt1 - fmt2
-        assertEquals(3, resultFmt.middleWidth, "Incorrect middle width calculation.")
+        Assert.assertEquals("Incorrect middle width calculation.", 3, resultFmt.middleWidth)
     }
 
     @Test fun addAbove_FirstSingleSecondSingle() {
@@ -154,7 +152,7 @@ class FormatTest {
         val str2 = "E"
         val fmt2 = str2.toFormat()
         val resultFmt = fmt1 - fmt2
-        assertEquals(2, resultFmt.middleWidth, "Incorrect middle width calculation.")
+        Assert.assertEquals("Incorrect middle width calculation.", 2, resultFmt.middleWidth)
     }
 
     @Test fun addFill_SecondSingle() {
@@ -163,7 +161,7 @@ class FormatTest {
         val str2 = "E"
         val fmt2 = str2.toFormat()
         val resultFmt = fmt1 + fmt2
-        assertEquals(3, resultFmt.middleWidth, "Incorrect middle width calculation.")
+        Assert.assertEquals("Incorrect middle width calculation.", 3, resultFmt.middleWidth)
     }
 
     @Test fun addFill_FirstSingleSecondSingle() {
@@ -172,7 +170,7 @@ class FormatTest {
         val str2 = "E"
         val fmt2 = str2.toFormat()
         val resultFmt = fmt1 + fmt2
-        assertEquals(3, resultFmt.middleWidth, "Incorrect middle width calculation.")
+        Assert.assertEquals("Incorrect middle width calculation.", 3, resultFmt.middleWidth)
     }
 
     @Test fun addFillStyle_0FillConstant() {
@@ -187,7 +185,7 @@ class FormatTest {
         val resultFmt = fmt1 + fmt2
         val fmtString = resultFmt.toString()
 
-        assertEquals(expectedStr, fmtString, "Incorrect fill-style addition of formats.")
+        Assert.assertEquals("Incorrect fill-style addition of formats.", expectedStr, fmtString)
     }
 
     @Test fun addFillStyle_2FillConstant() {
@@ -203,39 +201,40 @@ class FormatTest {
         val resultFmt = fmt1.addFillStyle(fmt2, fillConstant)
         val fmtString = resultFmt.toString()
 
-        assertEquals(expectedStr, fmtString, "Incorrect fill-style addition (with fill constant: $fillConstant) of formats.")
+        Assert.assertEquals("Incorrect fill-style addition (with fill constant: $fillConstant) of formats.",
+            expectedStr, fmtString)
     }
 
     @Test fun addEmptyLine_1() {
         val fmt1 = "a".toFormat().addEmptyLine()
         val fmt2 = "d".toFormat()
         val resFmt = fmt1.addAbove(fmt2)
-        assertEquals(3, resFmt.height, "Incorrect empty line addition.")
+        Assert.assertEquals("Incorrect empty line addition.", 3, resFmt.height)
     }
 
     @Test fun addEmptyLine_2() {
         val fmt1 = "a\nb".toFormat().addEmptyLine()
         val fmt2 = "d".toFormat()
         val resFmt = fmt1.addAbove(fmt2)
-        assertEquals(4, resFmt.height, "Incorrect empty line addition.")
+        Assert.assertEquals("Incorrect empty line addition.", 4, resFmt.height)
     }
 
     @Test fun addEmptyLine_3() {
         val fmt1 = "".toFormat().addEmptyLine()
         val fmt2 = "d".toFormat()
         val resFmt = fmt1.addAbove(fmt2)
-        assertEquals(2, resFmt.height, "Incorrect empty line addition.")
+        Assert.assertEquals("Incorrect empty line addition.", 2, resFmt.height)
     }
 
     @Test fun addFillStyle_SizeTest() {
         val fmt1 = "a\nbcd\ne".toFormat()
         val fmt2 = "ab\nc"    .toFormat()
         val resFmt = fmt1.addFillStyle(fmt2, 3)
-        assertEquals(4, resFmt.totalWidth)
+        Assert.assertEquals(4, resFmt.totalWidth)
     }
 
     @Test fun middleWidth() {
         val fmt = "ab\nc"    .toFormat()
-        assertEquals(2, fmt.middleWidth)
+        Assert.assertEquals(2, fmt.middleWidth)
     }
 }

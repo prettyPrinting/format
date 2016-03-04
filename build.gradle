@@ -19,7 +19,6 @@ repositories {
 dependencies {
     compile 'org.jetbrains.kotlin:kotlin-stdlib:1.0.0'
     compile 'org.jetbrains.kotlin:kotlin-runtime:1.0.0'
-    testCompile 'org.jetbrains.kotlin:kotlin-test:1.0.0'
     testCompile 'junit:junit:+'
 }
 

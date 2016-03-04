@@ -1,9 +1,7 @@
 package org.jetbrains.format
 
 import org.junit.Test
-import kotlin.test.assertEquals
-import org.jetbrains.format.toFormat
-import org.jetbrains.format.FormatLine
+import org.junit.Assert
 
 /**
  * User: anlun
@@ -21,7 +19,7 @@ class FormatSetTest {
 
     @Test fun formatLine_1() {
         val fl = formatLine()
-        assertEquals(2, fl.size())
+        Assert.assertEquals(2, fl.size())
     }
 
     @Test fun formatLine_iterate() {
@@ -29,6 +27,6 @@ class FormatSetTest {
         for (f in formatLine()) {
             count++
         }
-        assertEquals(2, count)
+        Assert.assertEquals(2, count)
     }
 }

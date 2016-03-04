@@ -1,15 +1,7 @@
 package org.jetbrains.format
 
 import org.junit.Test
-import org.jetbrains.format.crossWith
-import kotlin.test.assertEquals
-import org.jetbrains.format.emptyFormatList
-import org.jetbrains.format.formatToList
-import org.jetbrains.format.Format
-import kotlin.test.failsWith
-import kotlin.test.assertTrue
-import org.jetbrains.format.FormatList
-import org.jetbrains.format.FormatSet
+import org.junit.Assert
 
 /**
  * User: anlun
@@ -23,7 +15,7 @@ public class FormatListTest {
         val expectedList: List<Int> = listOf()
 
         val crossWith = l1.crossWith(l2, func)
-        assertEquals(expectedList, crossWith, "Incorrect crossWith in case of empty second list.")
+        Assert.assertEquals("Incorrect crossWith in case of empty second list.", expectedList, crossWith)
     }
 
     @Test fun crossWith_Test() {
@@ -33,6 +25,6 @@ public class FormatListTest {
         val expectedList: List<Int> = listOf(3, 4, 5, 4, 5, 6)
 
         val crossWith = l1.crossWith(l2, func)
-        assertEquals(expectedList, crossWith, "Incorrect crossWith.")
+        Assert.assertEquals("Incorrect crossWith.", expectedList, crossWith)
     }
 }

@@ -7,7 +7,7 @@ import org.junit.Assert
  * User: anlun
  */
 
-public class FormatTest {
+class FormatTest {
     @Test fun toString_Empty() {
         val str = ""
         val fmt = str.toFormat()

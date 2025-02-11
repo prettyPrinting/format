@@ -1,8 +1,8 @@
-# format [![Build Status](https://travis-ci.org/prettyPrinting/format.svg?branch=master)](https://travis-ci.org/prettyPrinting/format)
+# format [![Build and Test](https://github.com/prettyPrinting/format/actions/workflows/build.yml/badge.svg)](https://github.com/prettyPrinting/format/actions/workflows/build.yml)
 
 The pretty printing library based on Anton Podkopaev and Dmitri Boulytchev "Polynomial-Time Optimal Pretty-Printing Combinators with Choice" paper.  
 Library written on Kotlin.  
-  
+
 # Build instruction:
 
 * Install [Gradle](https://gradle.org)

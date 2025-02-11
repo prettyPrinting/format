@@ -177,7 +177,7 @@ class Format private constructor(
 
     operator fun minus(f: Format): Format = addAbove(f)
 
-    operator fun mod(f: Format): Format {
+    operator fun rem(f: Format): Format {
         if (  height == 0) { return f }
         if (f.height == 0) { return this }
 

@@ -1,9 +1,0 @@
----
-language: java
-script: ./gradlew
-jdk:
-  - oraclejdk7
-
-before_install:
- - chmod +x gradlew
-

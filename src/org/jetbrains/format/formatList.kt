@@ -31,8 +31,8 @@ fun List<Format>.addFillStyle(fl: List<Format>, shiftConstant: Int): List<Format
 fun List<Format>.minus(fl: List<Format>) = addAbove(fl)
 fun List<Format>.minus(f : Format)       = addAbove(formatToList(f))
 
-fun List<Format>.mod  (fl: List<Format>) = addAboveWithEmptyLine(fl)
-fun List<Format>.mod  (f : Format)       = addAboveWithEmptyLine(formatToList(f))
+operator fun List<Format>.rem(fl: List<Format>) = addAboveWithEmptyLine(fl)
+operator fun List<Format>.rem(f: Format) = addAboveWithEmptyLine(formatToList(f))
 
 fun List<Format>.div  (fl: List<Format>) = addBeside(fl)
 fun List<Format>.div  (f : Format)       = addBeside(formatToList(f))

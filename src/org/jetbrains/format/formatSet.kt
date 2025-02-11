@@ -94,14 +94,14 @@ abstract class FormatSet (
     fun addFillStyle(f: FormatSet): FormatSet = crossTransform(f) { vl, vr -> vl + vr }
     fun addFillStyle(f: FormatSet, shiftConstant: Int): FormatSet =
             crossTransform(f) { vl, vr -> vl.addFillStyle(vr, shiftConstant) }
-    fun addAboveWithEmptyLine(f: FormatSet): FormatSet = crossTransform(f) { vl, vr -> vl % vr }
+    fun addAboveWithEmptyLine(f: FormatSet): FormatSet = crossTransform(f) { vl, vr -> FormatSet.initial(width, vl).rem(FormatSet.initial(width, vr)).head() ?: Format.empty }
 
     /* Shortcuts */
     operator fun minus(f: FormatSet): FormatSet = addAbove(f)
     operator fun minus(f: Format): FormatSet = addAbove(f)
 
-    operator fun mod(f: FormatSet): FormatSet = addAboveWithEmptyLine(f)
-    operator fun mod(f: Format): FormatSet = addAboveWithEmptyLine(f)
+    operator fun rem(f: FormatSet): FormatSet = addAboveWithEmptyLine(f)
+    operator fun rem(f: Format): FormatSet = addAboveWithEmptyLine(f)
 
     operator fun div(f: FormatSet): FormatSet = addBeside(f)
     operator fun div(f: Format): FormatSet = addBeside(f)
@@ -134,7 +134,7 @@ abstract class FormatSet (
 }
 
 fun Format.minus(f: FormatSet): FormatSet = FormatSet.initial(f.width, this) - f
-fun Format.mod  (f: FormatSet): FormatSet = FormatSet.initial(f.width, this) % f
+operator fun Format.rem(f: FormatSet): FormatSet = FormatSet.initial(f.width, this).rem(f)
 fun Format.div  (f: FormatSet): FormatSet = FormatSet.initial(f.width, this) / f
 fun Format.plus (f: FormatSet): FormatSet = FormatSet.initial(f.width, this) + f
 
